@@ -14,13 +14,13 @@ The pipeline follows a five-step process:
 Public data can be retrieved using two methods:
 * **Manual**: Using the [SRA Run Selector](https://www.ncbi.nlm.nih.gov/Traces/study/). SRA run selecor is a web-based tool that allows you to search and download metagenomics datasets
 * **Terminal**: Downloading via command line (e.g., `sra-tools`). Install the SRA Toolkit on your system and then use the following command to download the data:
-* `fastq-dump --split-files <accession_number>`
+`fastq-dump --split-files <accession_number>` , replacing `<accession_number>` with the actual accession number of the sample you want to download
 
 ### 2. Preprocessing & Quality Control
 Before assembly, data must be cleaned and profiled:
-- [x] **Quality Control**: Initial assessment of raw reads (e.g., FastQC).
-- [x] **Trimming**: Removing adapters and low-quality bases using `Trimmomatic`.
-- [x] **Taxonomic Profiling**: Identifying species composition using `Kraken2` and visualizing with `Krona` charts.
+* **Quality Control**: Initial assessment of raw reads (e.g., FastQC or MultiQC). These tools will provide you with multiple metrics to identify any potential issues with the data.
+* **Trimming**: Removing adapters and low-quality bases using `Trimmomatic`.
+* **Taxonomic Profiling**: Identifying species composition using `Kraken2` and visualizing with `Krona` charts.
 
 ### 3. Assembly 
 Reconstruct the metagenome from short reads into longer sequences:
