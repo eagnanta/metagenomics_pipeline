@@ -28,6 +28,14 @@ replacing `<accession_number>` with the actual accession number of the sample yo
 ### 2.1 Quality Control (QC)
 You initially have to use tools to assess the raw reads (e.g., FastQC or MultiQC). These tools will provide you with multiple metrics to identify any potential issues with the data.
 
+```
+mkdir fastqc_out
+
+# Example command to run FastQC
+for each in *.fastq.gz
+do 
+fastqc ${each} -o fastqc
+```
 
 
 * **Trimming**: Removing adapters and low-quality bases using `Trimmomatic`.
