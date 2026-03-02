@@ -1,23 +1,53 @@
-# metagenomics_pipeline
-This pipeline is used for analyzing metagenomics data. The steps span from data download to the creation of metagenome-assembled genomes (MAGs) and their annotation.
+Metagenomics Pipeline 🧬
+This pipeline provides a comprehensive workflow for analyzing metagenomics data, spanning from initial data acquisition to the generation and annotation of Metagenome-Assembled Genomes (MAGs).
 
-1) Downloading public data
-   - with SRA run selector
-   - or with downloading from terminal
+📊 Workflow Overview
+The pipeline follows a structured five-step process:
 
-2) Data preprocessing
-  - Quality control
-  - Trimming (trimmomatic)
-  - Quality control
-  - Taxonomic profiling (Kraken2 and Krona)
+Data Acquisition: Fetching raw sequencing reads.
 
-3) Assemblying of the data into contigs
-  - metSPAdes
+Preprocessing: Ensuring data quality and taxonomic assignment.
 
-4) Creating metagenome-assembled genomes (MAGs)
-  - MetaBAT2
-  - CheckM
+Assembly: Reconstructing sequences into contigs.
 
-5) Annotating
-  - Prokka or eggNOG-mapper
+Binning: Grouping contigs into MAGs and assessing quality.
 
+Annotation: Functional labeling of the reconstructed genomes.
+
+🛠 Step-by-Step Guide
+1. Data Acquisition
+Public data can be retrieved using two primary methods:
+
+Manual: Using the SRA Run Selector.
+
+Terminal: Using sra-tools (e.g., fastq-dump or fasterq-dump).
+
+2. Preprocessing & QC
+Before assembly, data must be cleaned and profiled:
+
+[ ] Quality Control: Initial assessment of raw reads.
+
+[ ] Trimming: Removing adapters and low-quality bases using Trimmomatic.
+
+[ ] Post-Trimming QC: Verifying improvement in read quality.
+
+[ ] Taxonomic Profiling: Identifying species composition using Kraken2 and visualizing with Krona charts.
+
+3. Assembly
+Reconstruct the metagenome from short reads:
+
+Tool: metSPAdes
+
+Output: Scaffolds and Contigs.
+
+4. MAG Generation (Binning)
+Grouping contigs into individual "bins" representing distinct organisms:
+
+Binning: MetaBAT2
+
+Quality Assessment: CheckM (to determine Completeness and Contamination).
+
+5. Functional Annotation
+Assigning biological function to the genes within the MAGs:
+
+Tools: Prokka (rapid prokaryotic annotation) or eggNOG-mapper (functional orthology).
