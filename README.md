@@ -10,15 +10,26 @@ The pipeline follows a five-step process:
 
 
 
-### 1. Data Acquisition 
+## 1. Data Acquisition 
 Public data can be retrieved using two methods:
-* **Manual**: Using the [SRA Run Selector](https://www.ncbi.nlm.nih.gov/Traces/study/). SRA run selecor is a web-based tool that allows you to search and download metagenomics datasets
-* **Terminal**: Downloading via command line (e.g., `sra-tools`). Install the SRA Toolkit on your system and then use the following command to download the data:
-`fastq-dump --split-files <accession_number>` , replacing `<accession_number>` with the actual accession number of the sample you want to download
 
-### 2. Preprocessing & Quality Control
-Before assembly, data must be cleaned and profiled:
-* **Quality Control**: Initial assessment of raw reads (e.g., FastQC or MultiQC). These tools will provide you with multiple metrics to identify any potential issues with the data.
+### 1.1 SRA run selector
+SRA Run Selector (https://www.ncbi.nlm.nih.gov/Traces/study/) is a web-based tool that allows you to search and download metagenomics datasets
+
+### 1.2 Terminal
+Since you have the accession numbers, you can download the data directly via command line (e.g., `sra-tools`). Install the SRA Toolkit on your system and then use the following command to download the data:
+
+`fastq-dump --split-files <accession_number>` 
+
+replacing `<accession_number>` with the actual accession number of the sample you want to download
+
+## 2. Data preprocessing
+
+### 2.1 Quality Control (QC)
+You initially have to use tools to assess the raw reads (e.g., FastQC or MultiQC). These tools will provide you with multiple metrics to identify any potential issues with the data.
+
+
+
 * **Trimming**: Removing adapters and low-quality bases using `Trimmomatic`.
 * **Taxonomic Profiling**: Identifying species composition using `Kraken2` and visualizing with `Krona` charts.
 
