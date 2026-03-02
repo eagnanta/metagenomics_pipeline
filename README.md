@@ -12,8 +12,9 @@ The pipeline follows a five-step process:
 
 ### 1. Data Acquisition 
 Public data can be retrieved using two methods:
-* **Manual**: Using the [SRA Run Selector](https://www.ncbi.nlm.nih.gov/Traces/study/).
-* **Terminal**: Downloading via command line (e.g., `sra-tools`).
+* **Manual**: Using the [SRA Run Selector](https://www.ncbi.nlm.nih.gov/Traces/study/). SRA run selecor is a web-based tool that allows you to search and download metagenomics datasets
+* **Terminal**: Downloading via command line (e.g., `sra-tools`). Install the SRA Toolkit on your system and then use the following command to download the data:
+* `fastq-dump --split-files <accession_number>`
 
 ### 2. Preprocessing & Quality Control
 Before assembly, data must be cleaned and profiled:
