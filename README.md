@@ -14,14 +14,14 @@ The pipeline follows a five-step process:
 Public data can be retrieved using two methods:
 
 ### 1.1 SRA run selector
-SRA Run Selector (https://www.ncbi.nlm.nih.gov/Traces/study/) is a web-based tool that allows you to search and download metagenomics datasets
+SRA Run Selector (https://www.ncbi.nlm.nih.gov/Traces/study/) is a web-based tool that allows you to search and download metagenomics datasets.
 
 ### 1.2 Terminal
 Since you have the accession numbers, you can download the data directly via command line (e.g., `sra-tools`). Install the SRA Toolkit on your system and then use the following command to download the data:
 
 `fastq-dump --split-files <accession_number>` 
 
-replacing `<accession_number>` with the actual accession number of the sample you want to download
+,replacing `<accession_number>` with the actual accession number of the sample you want to download.
 
 ## 2. Data preprocessing
 
@@ -59,7 +59,7 @@ metaspades.py -1 input_forward_paired.fastq.gz -2 input_reverse_paired.fastq.gz 
 ```
 
 ## 4. Generating coverage statistics
-Before creating the metagenome-assembled genomes (MAGs), you need to generste coverage statistics by mapping reads to the contigs. 
+Before creating the metagenome-assembled genomes (MAGs), you need to generate coverage statistics by mapping reads to the contigs. 
 * **Tool**: bwa, samtools
 
 ```
@@ -75,7 +75,7 @@ samtools sort junk input.fastq.sam
 ```
 
 ## 5. MAG Generation
-Bin the assembled contigs into putative metagenome-assembled genomes (MAGs), and then estimate the completeness and the quality of the resulting MAGs
+Bin the assembled contigs into putative metagenome-assembled genomes (MAGs), and then estimate the completeness and the quality of the resulting MAGs.
 * **Binning**: `MetaBAT2`
 * **Quality Assessment**: `CheckM` 
 
@@ -93,7 +93,7 @@ checkm lineage_wf -t 4 -x fa metabat2_output/bin checkm_output
 ## 6. Visualization of the phylogenetic tree
 To visualize and plot the tree you have produced, you can use the web-based interactive Tree of Life (iTOL):
 http://itol.embl.de/index.shtml
-However, iTOL only takes in newick formatted trees, so you need to reformat the tree with Figtree (http://tree.bio.ed.ac.uk/software/figtree/)
+However, iTOL only takes in newick formatted trees, so you need to reformat the tree with Figtree (http://tree.bio.ed.ac.uk/software/figtree/).
 
 Other software option for visualization:
 * Archaeopteryx: https://sites.google.com/site/cmzmasek/home/software/archaeopteryx
@@ -101,7 +101,7 @@ Other software option for visualization:
 * TreeView: http://taxonomy.zoology.gla.ac.uk/rod/treeview.html
 
 ## 7. Functional Annotation 
-Assigning biological function to the genes within the MAGs:
+Assign biological function to the genes within the MAGs:
 * **Tools**: `Prokka` (rapid prokaryotic annotation) or `eggNOG-mapper` (functional orthology).
 
 ```
