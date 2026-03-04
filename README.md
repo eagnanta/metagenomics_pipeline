@@ -37,33 +37,76 @@ do
 fastqc ${each} -o fastqc
 ```
 
+### 2.2 Trimmomatic
+After the first QC, you need to use Trimmomatic in order to trim adapter sequences and low-quality reads.
 
-* **Trimming**: Removing adapters and low-quality bases using `Trimmomatic`.
-* **Taxonomic Profiling**: Identifying species composition using `Kraken2` and visualizing with `Krona` charts.
+```
+# Example command to run Trimmomatic
+trimmomatic PE -threads 4 -phred33 input_forward.fastq.gz input_reverse.fastq.gz \
+                output_forward_paired.fastq.gz output_forward_unpaired.fastq.gz \
+                output_reverse_paired.fastq.gz output_reverse_unpaired.fastq.gz \
+                ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36
+```
 
-### 3. Assembly 
+## 3. Assembly of the data into contigs
 Reconstruct the metagenome from short reads into longer sequences:
 * **Tool**: `metSPAdes`
 * **Output**: Scaffolds and Contigs.
 
-### 4. MAG Generation (Binning) 
-Grouping contigs into individual "bins" representing distinct organisms:
-* **Binning**: `MetaBAT2`
-* **Quality Assessment**: `CheckM` (to determine Completeness and Contamination).
+```
+# Example command to run metaSPAdes
+metaspades.py -1 input_forward_paired.fastq.gz -2 input_reverse_paired.fastq.gz -o metaspades_output
+```
 
-### 5. Functional Annotation 
+## 4. Generating coverage statistics
+Before creating the metagenome-assembled genomes (MAGs), you need to generste coverage statistics by mapping reads to the contigs. 
+* **Tool**: bwa, samtools
+
+```
+# index the contigs file that was produced by metaSPAdes:
+bwa index contigs.fasta
+
+# map the original reads to the contigs:
+bwa mem contigs.fasta input_forward_paired.fastq input_reverse_paired.fastq > input.fastq.sam
+
+# reformat the file with samtools:
+samtools view -Sbu input.fastq.sam > junk
+samtools sort junk input.fastq.sam
+```
+
+## 5. MAG Generation
+Bin the assembled contigs into putative metagenome-assembled genomes (MAGs), and then estimate the completeness and the quality of the resulting MAGs
+* **Binning**: `MetaBAT2`
+* **Quality Assessment**: `CheckM` 
+
+```
+# Example command to run MetaBAT2
+metabat2 -i metaspades_output/contigs.fasta -o metabat2_output/bin \
+         -m 1500 --unbinned \
+         --saveCls metabat2_output/bin.cls.tsv \
+         --saveLog metabat2_output/metabat2.log
+
+# Example command to run CheckM
+checkm lineage_wf -t 4 -x fa metabat2_output/bin checkm_output
+```
+
+## 6. Visualization of the phylogenetic tree
+To visualize and plot the tree you have produced, you can use the web-based interactive Tree of Life (iTOL):
+http://itol.embl.de/index.shtml
+However, iTOL only takes in newick formatted trees, so you need to reformat the tree with Figtree (http://tree.bio.ed.ac.uk/software/figtree/)
+
+Other software option for visualization:
+* Archaeopteryx: https://sites.google.com/site/cmzmasek/home/software/archaeopteryx
+* EvolView: https://www.evolgenius.info/evolview/
+* TreeView: http://taxonomy.zoology.gla.ac.uk/rod/treeview.html
+
+## 7. Functional Annotation 
 Assigning biological function to the genes within the MAGs:
 * **Tools**: `Prokka` (rapid prokaryotic annotation) or `eggNOG-mapper` (functional orthology).
 
----
+```
+# Example command to run Prokka
+prokka --outdir prokka_output --prefix sample_name metaspades_output/contigs.fasta
+```
 
-## 🛠️ Requirements
-| Tool | Purpose |
-| :--- | :--- |
-| **Trimmomatic** | Read Trimming |
-| **Kraken2** | Taxonomy |
-| **metSPAdes** | Assembly |
-| **MetaBAT2** | Binning |
-| **Prokka** | Annotation |
 
-> **Note:** Ensure all tools are added to your `PATH` or managed via a Conda environment.
