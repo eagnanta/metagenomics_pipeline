@@ -48,7 +48,7 @@ trimmomatic PE -threads 4 -phred33 input_forward.fastq.gz input_reverse.fastq.gz
                 ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36
 ```
 
-## 3. Assembly of the data into contigs
+## 3. Assemblying the data into contigs
 Reconstruct the metagenome from short reads into longer sequences:
 * **Tool**: `metSPAdes`
 * **Output**: Scaffolds and Contigs.
